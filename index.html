@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Form</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f4f4f4, #e0e0e0);
+      color: #333;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Night Mode */
+    body.night-mode {
+      background: linear-gradient(135deg, #1e1e1e, #333);
+      color: #f4f4f4;
+    }
+
+    .night-mode .container {
+      background-color: #444;
+      color: #f4f4f4;
+    }
+
+    .night-mode form button {
+      background-color: #555;
+    }
+
+    .night-mode form button:hover {
+      background-color: #777;
+    }
+
+    .night-mode .popup-content {
+      background-color: #444;
+    }
+
+    /* Background Image */
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: url('background.jpg') no-repeat center center/cover;
+      opacity: 0.1;
+    }
+
+    .banner {
+      background-image: url('websitebanner.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 200px;
+      width: 100%;
+      position: relative;
+      z-index: -1;
+    }
+
+    /* Container */
+    .container-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 800px;
+      margin: 20px;
+    }
+
+    /* Logo */
+    .logo {
+      display: block;
+      margin: 0 auto 20px;
+      max-width: 100px;
+    }
+
+    /* Form Styles */
+    form fieldset {
+      border: none;
+      margin-bottom: 20px;
+    }
+
+    form legend {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    form button {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-right: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    form button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Popup Styles */
+    .popup-window {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+
+    #copy-button {
+      display: block;
+      margin: 20px auto 0;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+
+    #copy-button:hover {
+      background-color: #218838;
+    }
+
+    /* Report and Receipt Styles */
+    .report {
+      font-size: 1em;
+    }
+
+    .report h2 {
+      margin-bottom: 10px;
+    }
+
+    .report p {
+      margin-bottom: 5px;
+    }
+
+    .report strong {
+      font-weight: bold;
+    }
+
+    /* Image Gallery Styles */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .image-gallery img {
+      width: 100px;
+      height: auto;
+      margin: 5px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .fullsize-image {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .fullsize-image img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    /* Media query for mobile devices */
+    @media screen and (max-width: 600px) {
+      .container {
+        width: 100%;
+        padding: 16px;
+      }
+
+      .logo {
+        max-width: 80%;
+        height: auto;
+      }
+
+      .image-gallery img {
+        width: 80px;
+      }
+
+      .image-gallery img:hover {
+        width: 100px;
+      }
+
+      .popup-content {
+        width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="banner"></div>
+  <div class="background-image"></div>
+  <div class="container-wrapper">
+    <div class="container">
+      <img src="logo.jpg" alt="Fabale Logo" class="logo">
+      <h1>Fabale Refrigeration and Air-conditioning Services</h1>
+      <button id="night-mode-toggle">Toggle Night Mode</button>
+      <form id="service-form">
+        <fieldset>
+          <legend>Customer Information</legend>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" id="phone" name="phone" required>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Home Appliance Information</legend>
+          <div class="form-group">
+            <label for="receive-date">Date of Home Appliance Receive</label>
+            <input type="date" id="receive-date" name="receive-date" required>
+          </div>
+          <div class="form-group">
+            <label for="item">Home Appliances Item</label>
+            <input type="text" id="item" name="item" required>
+          </div>
+          <div class="form-group">
+            <label for="serial-number">Serial Number of the Item</label>
+            <input type="text" id="serial-number" name="serial-number" required>
+          </div>
+          <div class="form-group">
+            <label for="issue">Issue of the Appliances</label>
+            <textarea id="issue" name="issue" required></textarea>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Payment Information</legend>
+          <div class="form-group">
+            <label for="repair-price">Repair Price</label>
+            <input type="number" id="repair-price" name="repair-price" required>
+          </div>
+          <div class="form-group">
+            <label for="claim-date">Date of Home Appliance Claimed</label>
+            <input type="date" id="claim-date" name="claim-date" required>
+          </div>
+          <div class="form-group">
+            <label for="payment-status">Payment Status</label>
+            <select id="payment-status" name="payment-status" required>
+              <option value="Fully Paid">Fully Paid</option>
+              <option value="Partially Paid">Partially Paid</option>
+              <option value="Not Paid">Not Paid</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="amount-paid">Amount Paid</label>
+            <input type="number" id="amount-paid" name="amount-paid" required>
+          </div>
+        </fieldset>
+        <button type="submit">Generate Service Report</button>
+        <button type="button" id="generate-receipt">Generate Payment Receipt</button>
+      </form>
+      <div class="image-gallery">
+        <!-- Example images for the gallery -->
+        <img src="image1.jpg" alt="Image 1">
+        <img src="image2.jpg" alt="Image 2">
+        <img src="image3.jpg" alt="Image 3">
+      </div>
+    </div>
+  </div>
+  <div id="popup-window" class="popup-window">
+    <div class="popup-content" id="report">
+      <!-- Content will be dynamically added here -->
+    </div>
+    <span id="close-popup" class="close-popup">&times;</span>
+    <button id="copy-button">Copy to Clipboard</button>
+  </div>
+  <div id="fullsize-image" class="fullsize-image">
+    <img src="" alt="Fullsize">
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById("service-form");
+      const generateReceiptButton = document.getElementById("generate-receipt");
+      const popupWindow = document.getElementById("popup-window");
+      const popupContent = document.getElementById("report");
+      const closePopupButton = document.getElementById("close-popup");
+      const copyButton = document.getElementById("copy-button");
+      const nightModeToggle = document.getElementById("night-mode-toggle");
+      const fullsizeImageContainer = document.getElementById("fullsize-image");
+      const fullsizeImage = fullsizeImageContainer.querySelector("img");
+
+      form.addEventListener("submit", function(event) {
+        event.preventDefault();
+        const report = generateReport();
+        showPopup(report);
+      });
+
+      generateReceiptButton.addEventListener("click", function() {
+        const receipt = generateReceipt();
+        showPopup(receipt);
+      });
+
+      closePopupButton.addEventListener("click", function() {
+        popupWindow.style.display = "none";
+      });
+
+      copyButton.addEventListener("click", function() {
+        const range = document.createRange();
+        range.selectNode(popupContent);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      });
+
+      nightModeToggle.addEventListener("click", function() {
+        document.body.classList.toggle("night-mode");
+      });
+
+      function generateReport() {
+        const name = document.getElementById("name").value;
+        const address = document.getElementById("address").value;
+        const phone = document.getElementById("phone").value;
+        const receiveDate = document.getElementById("receive-date").value;
+        const item = document.getElementById("item").value;
+        const serialNumber = document.getElementById("serial-number").value;
+        const issue = document.getElementById("issue").value;
+        const repairPrice = document.getElementById("repair-price").value;
+        const claimDate = document.getElementById("claim-date").value;
+        const paymentStatus = document.getElementById("payment-status").value;
+        const amountPaid = document.getElementById("amount-paid").value;
+
+        return `
+          <h2>Service Report</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Address:</strong> ${address}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Date of Home Appliance Receive:</strong> ${receiveDate}</p>
+          <p><strong>Home Appliances Item:</strong> ${item}</p>
+          <p><strong>Serial Number of the Item:</strong> ${serialNumber}</p>
+          <p><strong>Issue of the Appliances:</strong> ${issue}</p>
+          <p><strong>Repair Price:</strong> ${repairPrice}</p>
+          <p><strong>Date of Home Appliance Claimed:</strong> ${claimDate}</p>
+          <p><strong>Payment Status:</strong> ${paymentStatus}</p>
+          <p><strong>Amount Paid:</strong> ${amountPaid}</p>
+        `;
+      }
+
+      function generateReceipt() {
+        const name = document.getElementById("name").value;
+        const repairPrice = document.getElementById("repair-price").value;
+        const amountPaid = document.getElementById("amount-paid").value;
+
+        return `
+          <div class="receipt">
+            <h2>Payment Receipt</h2>
+            <p>Fabale Refrigeration and Air-conditioning Services</p>
+            <hr>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Repair Price:</strong> ${repairPrice}</p>
+            <p><strong>Amount Paid:</strong> ${amountPaid}</p>
+            <hr>
+            <p><strong>Disclaimer:</strong></p>
+            <p>Failed to redeem the item within 60 days will result in the item being sold or disposed of, as per our company's storage and disposal policy.</p>
+          </div>
+        `;
+      }
+
+      function showPopup(content) {
+        popupContent.innerHTML = content;
+        popupWindow.style.display = "flex";
+      }
+
+      // Image enlargement
+      const images = document.querySelectorAll(".image-gallery img");
+      images.forEach(img => {
+        img.addEventListener("click", () => {
+          fullsizeImage.src = img.src;
+          fullsizeImage.alt = img.alt;
+          fullsizeImageContainer.style.display = "flex";
+        });
+      });
+
+      fullsizeImageContainer.addEventListener("click", () => {
+        fullsizeImageContainer.style.display = "none";
+      });
+    });
+  </script>
+</body>
+</html>
